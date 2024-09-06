@@ -17,7 +17,7 @@ object Log {
     outputFile.close()
   }
 
-  private case class LogOutput(key:String, value:String){
+  case class LogOutput(key:String, value:String){
     private def capitalize(str: String, spacer: String = "") = str.split(" ").map(x => x.head.toUpper + x.tail).mkString(spacer)
     override def toString: String = s"""${capitalize(key," ")}: ${value}"""
     def toJson: String = s""""${capitalize(key,"")}": "${value}""""

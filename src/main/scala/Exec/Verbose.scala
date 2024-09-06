@@ -28,18 +28,18 @@ object Verbose {
 
   def run(train: RDD[String], validate: RDD[String], log: mutable.ListBuffer[LogOutput]): Unit = {
     val schemas = extractTypeStructure(shredRecords(train)) // issue with multiple different types and nulls
-    log += LogOutput("Precision", schemas.size.toString, "Precision: ")
-    log += LogOutput("Recall", validateRows(schemas, validate).toString(), "Recall: ")
-    log += LogOutput("Grouping", schemas.size.toString(), "Grouping: ")
+    log += LogOutput("Precision", schemas.size.toString)
+    log += LogOutput("Recall", validateRows(schemas, validate).toString())
+    log += LogOutput("Grouping", schemas.size.toString())
   }
 
   def main(args: Array[String]): Unit = {
     val log: mutable.ListBuffer[LogOutput] = mutable.ListBuffer[LogOutput]()
-    log += LogOutput("Date",Calendar.getInstance().getTime().toString,"Date: ")
+    log += LogOutput("Date",Calendar.getInstance().getTime().toString)
 
     val config = util.CMDLineParser.readArgs(args) // Creates the Spark session with its config values.
 
-    log += LogOutput("inputFile",config.fileName,"Input File: ")
+    log += LogOutput("inputFile",config.fileName)
 
     val startTime = System.currentTimeMillis() // Start timer
 
@@ -47,16 +47,16 @@ object Verbose {
 
     val endTime = System.currentTimeMillis() // End Timer
 
-    log += LogOutput("TotalTime",(endTime - startTime).toString,"Total execution time: ", " ms")
-    log += LogOutput("TrainPercent",config.trainPercent.toString,"TrainPercent: ")
-    log += LogOutput("ValidationSize",config.validationSize.toString,"ValidationSize: ")
-    log += LogOutput("Algorithm","verbose","Algorithm: ")
+    log += LogOutput("TotalTime",(endTime - startTime).toString)
+    log += LogOutput("TrainPercent",config.trainPercent.toString)
+    log += LogOutput("ValidationSize",config.validationSize.toString)
+    log += LogOutput("Algorithm","verbose")
     log += LogOutput("Seed",config.seed match {
       case Some(i) => i.toString
-      case None => "None"},"Seed: ")
+      case None => "NoneSeed: "})
 
-    config.spark.conf.getAll.foreach{case(k,v) => log += LogOutput(k,v,k+": ")}
-    log += LogOutput("kse",config.kse.toString,"KSE: ")
+    config.spark.conf.getAll.foreach{case(k,v) => log += LogOutput(k,v)}
+    log += LogOutput("kse",config.kse.toString)
 
 
 
